@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Planners - Travel Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --dark: #1a1a1a;
+            --dark-grey: #2c2c2c;
+            --light-grey: #f5f5f5;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--dark-grey);
+            color: var(--white);
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 30px;
+        }
+
+        .top-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-bar-item i {
+            color: var(--gold);
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+
+        .separator {
+            width: 1px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: var(--white);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .reserve-btn {
+            background: var(--gold);
+            color: var(--white);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reserve-btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icon:hover {
+            color: var(--gold);
+        }
+
+        .menu-btn {
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            overflow: hidden;
+            background-image: url('/images/pic2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(26, 26, 26, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            padding: 80px 40px 40px;
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--white);
+            font-size: 28px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu-close:hover {
+            color: var(--gold);
+        }
+
+        .mobile-menu-item {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            color: var(--white);
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mobile-menu-item:hover {
+            color: var(--gold);
+            padding-left: 10px;
+        }
+
+        .mobile-menu-item i {
+            font-size: 20px;
+            width: 30px;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1999;
+            display: none;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        .hero-text {
+            margin-bottom: 40px;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            background: var(--gold);
+            padding: 15px 40px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .hero-search {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 15px;
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .search-field {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-field i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .search-field input:focus,
+        .search-field select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .search-btn {
+            background: var(--gold);
+            color: var(--white);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            background: var(--gold);
+            color: var(--white);
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .slider-controls:hover {
+            background: var(--gold-dark);
+        }
+
+        .slider-prev {
+            left: 0;
+        }
+
+        .slider-next {
+            right: 0;
+        }
+
+        /* Main App Container */
+        .main-container {
+            background: var(--light-grey);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gold);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .nav-menu-btn {
+            padding: 12px 24px;
+            border: 2px solid #e0e0e0;
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s;
+        }
+
+        .nav-menu-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .nav-menu-btn.active {
+            background: var(--gold);
+            color: var(--white);
+            border-color: var(--gold);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--gold);
+        }
+
+        .card h3 {
+            color: var(--text-dark);
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .card-subtitle {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-actions-top {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .profile-details {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .profile-detail-item {
+            display: flex;
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .profile-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            min-width: 180px;
+            font-size: 16px;
+        }
+
+        .profile-value {
+            color: var(--text-light);
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .profile-edit-form {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-edit-group {
+            margin-bottom: 25px;
+        }
+
+        .profile-edit-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .profile-edit-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .profile-edit-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .profile-edit-input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .profile-actions .btn {
+            margin-bottom: 0;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--white);
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .stat-card h3 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 25px;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        table th {
+            background: var(--gold);
+            color: var(--white);
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-dark);
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tr:hover {
+            background: #fafafa;
+        }
+
+        /* Messages */
+        .message {
+            padding: 18px 24px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: none;
+            font-weight: 500;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* User Info */
+        .user-info {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .user-info strong {
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        /* Cost Display */
+        .cost-display {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            padding: 25px 35px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px 0;
+            border: 2px solid #10b981;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .cost-display p {
+            color: #065f46;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cost-display h2 {
+            color: #065f46;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        /* Auth Section */
+        #authSection {
+            min-height: 100vh;
+            background-image: url('/images/pic3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        #authSection::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo .logo-icon {
+            margin: 0 auto 15px;
+        }
+
+        .auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        /* Hide sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        #mainApp {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .hero-search {
+                flex-direction: column;
+            }
+
+            .top-bar-content,
+            .nav-content {
+                padding: 0 20px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+            }
+
+            .nav-menu-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- AUTH SECTION -->
+    <div id="authSection">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="auth-title">Holiday Planners</div>
+                <div class="auth-subtitle">Your Journey Planning Begins Here</div>
+            </div>
+            
+            <div id="loginForm">
+                <h3 style="margin-bottom: 25px; font-size: 24px; color: var(--text-dark);">Login</h3>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary" onclick="login()" style="width: 100%;">Login</button>
+                <button class="btn btn-secondary" onclick="showRegister()" style="width: 100%;">Register</button>
+            </div>
+
+            <div id="registerForm" style="display: none;">
+                <h3 style="margin-bottom: 25px; font-size: 24px; color: var(--text-dark);">Register</h3>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="regFirstName" placeholder="Enter first name">
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="regLastName" placeholder="Enter last name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="regPhone" placeholder="10-15 digits">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="Enter password">
+                </div>
+                <button class="btn btn-success" onclick="register()" style="width: 100%;">Register</button>
+                <button class="btn btn-secondary" onclick="showLogin()" style="width: 100%;">Back to Login</button>
+            </div>
+
+            <div id="authMessage" class="message"></div>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION -->
+    <div id="mainApp">
+        <!-- Top Bar -->
+       
+
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <div class="nav-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="logo-text" onclick="showSection('dashboard', null)">Holiday Planners</div>
+                </a>
+                <div class="nav-actions">
+                    <button class="reserve-btn" onclick="showSection('newBooking', null)">Add Bookings</button>
+                    
+                    <i class="fas fa-bars nav-icon menu-btn" onclick="toggleMobileMenu()"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-subtitle">Enjoy Planning your Travel With</div>
+                    <div class="hero-title">Holiday Planners</div>
+                    <div class="hero-description">
+                        Turning Dreams into Destinations.
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
+        <div class="mobile-menu" id="mobileMenu">
+            <i class="fas fa-times mobile-menu-close" onclick="closeMobileMenu()"></i>
+            <div class="mobile-menu-item" onclick="showSection('dashboard', null); closeMobileMenu();">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('bookings', null); closeMobileMenu();">
+                <i class="fas fa-hotel"></i>
+                <span>My Bookings</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('newBooking', null); closeMobileMenu();">
+                <i class="fas fa-plus-circle"></i>
+                <span>New Booking</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('itineraries', null); closeMobileMenu();">
+                <i class="fas fa-route"></i>
+                <span>My Itineraries</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('destinations', null); closeMobileMenu();">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinations</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('reports', null); closeMobileMenu();">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </div>
+            <div class="mobile-menu-item" onclick="showSection('profile', null); closeMobileMenu();">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+            <div class="mobile-menu-item" onclick="logout(); closeMobileMenu();" style="color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <div class="container">
+                <div id="appMessage" class="message"></div>
+
+                
+                <!-- DASHBOARD SECTION -->
+                <div id="dashboard" class="section active">
+                    <div class="content-section">
+                        <div class="user-info" id="userInfo"></div>
+                        <h2 class="section-title">Dashboard Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3 id="statBookings">-</h3>
+                                <p>Total Bookings</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="statSpending">-</h3>
+                                <p>Your Total Spending</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="statItineraries">-</h3>
+                                <p>Your Itineraries</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="statDestinations">-</h3>
+                                <p>Total Destinations</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadDashboard()">Refresh Dashboard</button>
+                    </div>
+                </div>
+
+                <!-- MY BOOKINGS SECTION -->
+                <div id="bookings" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">My Bookings</h2>
+                        <button class="btn btn-primary" onclick="loadMyBookings()">Refresh</button>
+                        <div id="bookingsList"></div>
+                    </div>
+                </div>
+
+                <!-- NEW BOOKING SECTION -->
+                <div id="newBooking" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">Create New Booking</h2>
+                        
+                        
+                        <div class="form-group">
+                            <label>Select Hotel</label>
+                            <select id="bookingHotel" onchange="calculateCost()">
+                                <option value="">-- Select Hotel --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Check-in Date</label>
+                            <input type="date" id="bookingCheckIn" onchange="calculateCost()">
+                        </div>
+                        <div class="form-group">
+                            <label>Check-out Date</label>
+                            <input type="date" id="bookingCheckOut" onchange="calculateCost()">
+                        </div>
+                        
+                        <div id="costDisplay" class="cost-display" style="display: none;">
+                            <p>Estimated Total Cost</p>
+                            <h2 id="estimatedCost">₹ 0</h2>
+                        </div>
+
+                        <button class="btn btn-success" onclick="createBooking()">Create Booking</button>
+                        <button class="btn btn-secondary" onclick="loadHotels()">Refresh Hotels</button>
+                    </div>
+                </div>
+
+                <!-- MY ITINERARIES SECTION -->
+                <div id="itineraries" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">My Itineraries</h2>
+                        <button class="btn btn-primary" onclick="showSection('newItinerary', null)">Create New Itinerary</button>
+                        <button class="btn btn-secondary" onclick="loadMyItineraries()">Refresh</button>
+                        <div id="itinerariesList"></div>
+                    </div>
+                </div>
+
+                <!-- NEW ITINERARY SECTION -->
+                <div id="newItinerary" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">Create New Itinerary</h2>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="itinTitle" placeholder="e.g., Golden Triangle Tour">
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="date" id="itinStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="date" id="itinEndDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Cost (₹)</label>
+                            <input type="number" id="itinCost" placeholder="e.g., 15000">
+                        </div>
+                        <div class="form-group">
+                            <label>Select Destinations (Hold Ctrl to select multiple)</label>
+                            <select id="itinDestinations" multiple style="height: 120px;">
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="createItinerary()">Create Itinerary</button>
+                        <button class="btn btn-secondary" onclick="showSection('itineraries', null)">Back</button>
+                    </div>
+                </div>
+
+                <!-- DESTINATIONS SECTION -->
+                <div id="destinations" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">Destinations</h2>
+                        <button class="btn btn-primary" onclick="showSection('newDestination', null)">Add New Destination</button>
+                        <button class="btn btn-secondary" onclick="loadDestinations()">Refresh</button>
+                        <div id="destinationsList"></div>
+                    </div>
+                </div>
+
+                <!-- NEW DESTINATION SECTION -->
+                <div id="newDestination" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">Add New Destination</h2>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="destName" placeholder="e.g., Darjeeling Hills">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="destLocation" placeholder="e.g., West Bengal">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="destType">
+                                <option value="Beach">Beach</option>
+                                <option value="Mountain">Mountain</option>
+                                <option value="City">City</option>
+                                <option value="Heritage">Heritage</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="Religious">Religious</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="destDescription" rows="3" placeholder="Brief description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating (1-5)</label>
+                            <input type="number" id="destRating" min="1" max="5" value="4">
+                        </div>
+                        <button class="btn btn-success" onclick="createDestination()">Add Destination</button>
+                        <button class="btn btn-secondary" onclick="showSection('destinations', null)">Back</button>
+                    </div>
+                </div>
+
+                <!-- REPORTS SECTION -->
+                <div id="reports" class="section">
+                    <div class="content-section">
+                        <h2 class="section-title">Reports & Analytics</h2>
+                        <div class="card">
+                            <h3>📊 Popular Destinations</h3>
+                            <p class="card-subtitle">Discover destinations ranked by popularity and total itineraries</p>
+                            <button class="btn btn-primary" onclick="loadPopularDestinations()">Load Popular Destinations</button>
+                            <div id="popularDestinations"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>💰 Your Spending Report</h3>
+                            <p class="card-subtitle">See how much you've spent across all confirmed bookings</p>
+                            <button class="btn btn-primary" onclick="loadSpendingReport()">Generate Spending Report</button>
+                            <div id="spendingReport" style="margin-top: 20px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROFILE SECTION -->
+                 <div id="profile" class="section">
+                     <div class="content-section">
+                         <h2 class="section-title">My Profile</h2>
+                         <div id="profileMessage" class="message"></div>
+                         <div class="profile-actions-top">
+                             <button class="btn btn-primary" id="editProfileBtn" onclick="toggleProfileEdit()">Edit Profile</button>
+                         </div>
+                         <div class="profile-details" id="profileDetails">
+                             <div class="profile-detail-item">
+                                 <span class="profile-label">First Name:</span>
+                                 <span class="profile-value" id="profileFirstNameDisplay">-</span>
+                             </div>
+                             <div class="profile-detail-item">
+                                 <span class="profile-label">Last Name:</span>
+                                 <span class="profile-value" id="profileLastNameDisplay">-</span>
+                             </div>
+                             <div class="profile-detail-item">
+                                 <span class="profile-label">Email:</span>
+                                 <span class="profile-value" id="profileEmailDisplay">-</span>
+                             </div>
+                             <div class="profile-detail-item">
+                                 <span class="profile-label">Phone:</span>
+                                 <span class="profile-value" id="profilePhoneDisplay">-</span>
+                             </div>
+                             <div class="profile-detail-item">
+                                 <span class="profile-label">Total Bookings:</span>
+                                 <span class="profile-value" id="profileTotalBookingsDisplay">0</span>
+                             </div>
+                         </div>
+                         <div class="profile-edit-form" id="profileEditForm" style="display: none;">
+                             <div class="profile-edit-group">
+                                 <label class="profile-edit-label">First Name</label>
+                                 <input type="text" id="profileFirstName" class="profile-edit-input" placeholder="First name">
+                             </div>
+                             <div class="profile-edit-group">
+                                 <label class="profile-edit-label">Last Name</label>
+                                 <input type="text" id="profileLastName" class="profile-edit-input" placeholder="Last name">
+                             </div>
+                             <div class="profile-edit-group">
+                                 <label class="profile-edit-label">Email</label>
+                                 <input type="email" id="profileEmail" class="profile-edit-input" disabled>
+                             </div>
+                             <div class="profile-edit-group">
+                                 <label class="profile-edit-label">Phone</label>
+                                 <input type="text" id="profilePhone" class="profile-edit-input" placeholder="Phone number">
+                             </div>
+                             <div class="profile-actions">
+                                 <button class="btn btn-primary" onclick="updateProfile()">Save Changes</button>
+                                 <button class="btn btn-secondary" onclick="cancelProfileEdit()">Cancel</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        const API_URL = 'http://localhost:5000';
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            menu.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        function toggleSearch() {
+            showAppMessage('Search feature is currently disabled.', 'error');
+        }
+
+        function setActiveNav(sectionId, eventElement) {
+            const navButtons = document.querySelectorAll('.nav-menu-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            if (eventElement && eventElement.classList.contains('nav-menu-btn')) {
+                eventElement.classList.add('active');
+            } else {
+                const targetButton = document.querySelector(`.nav-menu-btn[data-section="${sectionId}"]`);
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                }
+            }
+        }
+
+        function formatDate(value) {
+            // Handle null, undefined, empty string, or 'None'
+            if (!value || value === 'None' || value === 'null' || value === 'NULL') {
+                return '-';
+            }
+            
+            // If it's already a date object
+            if (value instanceof Date) {
+                if (isNaN(value.getTime())) return '-';
+                return value.toISOString().split('T')[0];
+            }
+            
+            // Convert to string and trim
+            let dateStr = String(value).trim();
+            
+            // Handle empty string after conversion
+            if (!dateStr || dateStr === 'null' || dateStr === 'None' || dateStr === 'NULL') {
+                return '-';
+            }
+            
+            // Handle ISO format with time (YYYY-MM-DDTHH:mm:ss or YYYY-MM-DDTHH:mm:ss.sssZ)
+            if (dateStr.includes('T')) {
+                const datePart = dateStr.split('T')[0];
+                // Validate YYYY-MM-DD format
+                if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+                    return datePart;
+                }
+            }
+            
+            // Handle date with time (YYYY-MM-DD HH:mm:ss)
+            if (dateStr.includes(' ') && dateStr.length > 10) {
+                const datePart = dateStr.split(' ')[0];
+                // Validate YYYY-MM-DD format
+                if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+                    return datePart;
+                }
+            }
+            
+            // If it's already in YYYY-MM-DD format, return as is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                return dateStr;
+            }
+            
+            // Try to parse as Date object (handles formats like "Wed, 12 Nov 2025 00:00:00 GM")
+            try {
+                const date = new Date(dateStr);
+                if (!isNaN(date.getTime())) {
+                    // Format as YYYY-MM-DD
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+            } catch (e) {
+                // If parsing fails, try to extract date from string
+            }
+            
+            // Try to extract date pattern from strings like "Wed, 12 Nov 2025 00:00:00 GM"
+            const dateMatch = dateStr.match(/(\d{1,2})\s+(\w{3})\s+(\d{4})/);
+            if (dateMatch) {
+                try {
+                    const date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }
+                } catch (e) {
+                    // Continue to return '-'
+                }
+            }
+            
+            // If all parsing fails and it doesn't look like a date, return '-'
+            if (dateStr.length < 8) {
+                return '-';
+            }
+            
+            // Last resort: try one more time with Date constructor
+            const lastTry = new Date(dateStr);
+            if (!isNaN(lastTry.getTime())) {
+                const year = lastTry.getFullYear();
+                const month = String(lastTry.getMonth() + 1).padStart(2, '0');
+                const day = String(lastTry.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            return '-';
+        }
+
+        // Close menu when clicking overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('menuOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', closeMobileMenu);
+            }
+            
+            // Check for saved session on page load
+            restoreSession();
+        });
+        
+        // Session persistence functions
+        function saveSession(user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+        
+        function getSavedSession() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    return JSON.parse(savedUser);
+                } catch (e) {
+                    return null;
+                }
+            }
+            return null;
+        }
+        
+        function clearSession() {
+            localStorage.removeItem('currentUser');
+        }
+        
+        async function restoreSession() {
+            const savedUser = getSavedSession();
+            if (savedUser) {
+                // Verify user still exists (optional - can skip if you trust localStorage)
+                try {
+                    const response = await fetch(`${API_URL}/user/profile/${savedUser.id}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Restore session
+                        currentUser = savedUser;
+                        document.getElementById('authSection').style.display = 'none';
+                        document.getElementById('mainApp').style.display = 'block';
+                        document.getElementById('userInfo').innerHTML = `
+                            <strong>Hi</strong> ${currentUser.name}!
+                        `;
+                        setActiveNav('dashboard');
+                        loadDashboard();
+                    } else {
+                        // User not found, clear session
+                        clearSession();
+                    }
+                } catch (error) {
+                    // Error checking user, but still try to restore (network issue)
+                    currentUser = savedUser;
+                    document.getElementById('authSection').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    document.getElementById('userInfo').innerHTML = `
+                        <strong>Hi</strong> ${currentUser.name}!
+                    `;
+                    setActiveNav('dashboard');
+                    loadDashboard();
+                }
+            }
+        }
+
+        // ============================================
+        // AUTH FUNCTIONS
+        // ============================================
+
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showAuthMessage('Please fill in all fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email, password})
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentUser = data.user;
+                    // Save session to localStorage
+                    saveSession(currentUser);
+                    
+                    document.getElementById('authSection').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    document.getElementById('userInfo').innerHTML = `
+                        <strong>Hi</strong> ${currentUser.name}!
+                    `;
+                    setActiveNav('dashboard');
+                    closeMobileMenu();
+                    loadDashboard();
+                } else {
+                    showAuthMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAuthMessage('Connection error. Make sure Flask server is running!', 'error');
+            }
+        }
+
+        async function register() {
+            const firstName = document.getElementById('regFirstName').value;
+            const lastName = document.getElementById('regLastName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!firstName || !lastName || !email || !phone || !password) {
+                showAuthMessage('Please fill in all fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({firstName, lastName, email, phone, password})
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showAuthMessage('Registration successful! Please login.', 'success');
+                    showLogin();
+                } else {
+                    showAuthMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAuthMessage('Connection error. Make sure Flask server is running!', 'error');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            // Clear session from localStorage
+            clearSession();
+            
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('authSection').style.display = 'flex';
+            showLogin();
+            setActiveNav('dashboard');
+            closeMobileMenu();
+        }
+
+        function showAuthMessage(msg, type) {
+            const msgEl = document.getElementById('authMessage');
+            msgEl.textContent = msg;
+            msgEl.className = `message ${type} show`;
+            setTimeout(() => msgEl.classList.remove('show'), 5000);
+        }
+
+        function showAppMessage(msg, type) {
+            const msgEl = document.getElementById('appMessage');
+            msgEl.textContent = msg;
+            msgEl.className = `message ${type} show`;
+            setTimeout(() => msgEl.classList.remove('show'), 5000);
+        }
+
+        function showProfileMessage(msg, type) {
+            const msgEl = document.getElementById('profileMessage');
+            if (!msgEl) return;
+            if (!msg) {
+                msgEl.className = 'message';
+                msgEl.textContent = '';
+                return;
+            }
+            msgEl.textContent = msg;
+            msgEl.className = `message ${type} show`;
+            setTimeout(() => msgEl.classList.remove('show'), 5000);
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+
+        function showSection(sectionId, eventElement) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            setActiveNav(sectionId, eventElement);
+
+            const mainContainer = document.querySelector('.main-container');
+            if (mainContainer) {
+                mainContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Load data for specific sections
+            if (sectionId === 'bookings') loadMyBookings();
+            if (sectionId === 'itineraries') loadMyItineraries();
+            if (sectionId === 'destinations') loadDestinations();
+            if (sectionId === 'newBooking') loadHotels();
+            if (sectionId === 'newItinerary') loadDestinationsForItinerary();
+            if (sectionId === 'profile') loadProfile();
+            if (sectionId === 'reports') {
+                document.getElementById('popularDestinations').innerHTML = '';
+                document.getElementById('spendingReport').innerHTML = '';
+            }
+        }
+
+        // ============================================
+        // DASHBOARD
+        // ============================================
+
+        async function loadDashboard() {
+            try {
+                // Load user spending
+                const spendingRes = await fetch(`${API_URL}/reports/user-spending/${currentUser.id}`);
+                const spendingData = await spendingRes.json();
+                document.getElementById('statSpending').textContent = 
+                    '₹' + spendingData.totalSpending.toLocaleString();
+
+                // Load user bookings count (only confirmed bookings)
+                const bookingsRes = await fetch(`${API_URL}/bookings/user/${currentUser.id}`);
+                const bookingsData = await bookingsRes.json();
+                const confirmedBookings = bookingsData.bookings.filter(booking => booking.BookingStatus === 'Confirmed');
+                document.getElementById('statBookings').textContent = confirmedBookings.length;
+
+                // Load user itineraries count
+                const itinRes = await fetch(`${API_URL}/itineraries/user/${currentUser.id}`);
+                const itinData = await itinRes.json();
+                document.getElementById('statItineraries').textContent = itinData.itineraries.length;
+
+                // Load total destinations
+                const destRes = await fetch(`${API_URL}/destinations`);
+                const destData = await destRes.json();
+                document.getElementById('statDestinations').textContent = destData.destinations.length;
+
+                showAppMessage('Dashboard loaded successfully!', 'success');
+            } catch (error) {
+                showAppMessage('Error loading dashboard', 'error');
+            }
+        }
+
+        // ============================================
+        // BOOKINGS
+        // ============================================
+
+        async function loadHotels() {
+            try {
+                const response = await fetch(`${API_URL}/hotels`);
+                const data = await response.json();
+                
+                const select = document.getElementById('bookingHotel');
+                select.innerHTML = '<option value="">-- Select Hotel --</option>';
+                
+                data.hotels.forEach(hotel => {
+                    select.innerHTML += `
+                        <option value="${hotel.HotelID}" data-price="${hotel.PricePerNight}">
+                            ${hotel.Name} - ${hotel.Location} (₹${hotel.PricePerNight}/night)
+                        </option>
+                    `;
+                });
+            } catch (error) {
+                showAppMessage('Error loading hotels', 'error');
+            }
+        }
+
+        async function calculateCost() {
+            const hotelId = document.getElementById('bookingHotel').value;
+            const checkIn = document.getElementById('bookingCheckIn').value;
+            const checkOut = document.getElementById('bookingCheckOut').value;
+
+            if (!hotelId || !checkIn || !checkOut) return;
+
+            try {
+                const response = await fetch(`${API_URL}/booking/calculate-cost`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({hotelId, checkInDate: checkIn, checkOutDate: checkOut})
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('costDisplay').style.display = 'block';
+                    document.getElementById('estimatedCost').textContent = 
+                        '₹' + data.totalCost.toLocaleString();
+                }
+            } catch (error) {
+                console.error('Error calculating cost:', error);
+            }
+        }
+
+        async function createBooking() {
+            const hotelId = document.getElementById('bookingHotel').value;
+            const checkIn = document.getElementById('bookingCheckIn').value;
+            const checkOut = document.getElementById('bookingCheckOut').value;
+
+            if (!hotelId || !checkIn || !checkOut) {
+                showAppMessage('Please fill all fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/booking/create`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        hotelId,
+                        checkInDate: checkIn,
+                        checkOutDate: checkOut
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Booking created successfully! Total: ₹' + data.totalPrice, 'success');
+                    // Auto-refresh dashboard
+                    loadDashboard();
+                    showSection('bookings', null);
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error creating booking', 'error');
+            }
+        }
+
+        async function loadMyBookings() {
+            try {
+                const response = await fetch(`${API_URL}/bookings/user/${currentUser.id}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('bookingsList');
+                
+                if (data.bookings.length === 0) {
+                    container.innerHTML = '<div class="card" style="text-align: center; padding: 60px 20px;"><h3 style="margin-bottom: 16px;">📭 No Bookings Yet</h3><p style="color: #64748b; font-size: 16px;">Start planning your journey by adding your first booking!</p></div>';
+                    return;
+                }
+
+                let html = '<table><thead><tr>' +
+                    '<th>ID</th><th>Hotel</th><th>Location</th><th>Check-in</th>' +
+                    '<th>Check-out</th><th>Price</th><th>Status</th><th>Actions</th>' +
+                    '</tr></thead><tbody>';
+
+                data.bookings.forEach(booking => {
+                    html += `
+                        <tr>
+                            <td>${booking.BookingID}</td>
+                            <td>${booking.HotelName}</td>
+                            <td>${booking.HotelLocation}</td>
+                            <td>${formatDate(booking.CheckInDate)}</td>
+                            <td>${formatDate(booking.CheckOutDate)}</td>
+                            <td>₹${booking.TotalPrice.toLocaleString()}</td>
+                            <td><span style="background: ${booking.BookingStatus === 'Confirmed' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'}; 
+                                color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                                ${booking.BookingStatus}</span></td>
+                            <td>
+                                <button class="btn btn-danger" onclick="cancelBooking(${booking.BookingID})"
+                                    ${booking.BookingStatus === 'Cancelled' ? 'disabled' : ''}>
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (error) {
+                showAppMessage('Error loading bookings', 'error');
+            }
+        }
+
+        async function cancelBooking(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/booking/cancel/${bookingId}`, {
+                    method: 'PUT'
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Booking cancelled successfully!', 'success');
+                    // Auto-refresh dashboard
+                    loadDashboard();
+                    loadMyBookings();
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error cancelling booking', 'error');
+            }
+        }
+
+        // ============================================
+        // ITINERARIES
+        // ============================================
+
+        async function loadDestinationsForItinerary() {
+            try {
+                const response = await fetch(`${API_URL}/destinations`);
+                const data = await response.json();
+                
+                const select = document.getElementById('itinDestinations');
+                select.innerHTML = '';
+                
+                data.destinations.forEach(dest => {
+                    select.innerHTML += `
+                        <option value="${dest.DestID}">${dest.Name} - ${dest.Location}</option>
+                    `;
+                });
+            } catch (error) {
+                showAppMessage('Error loading destinations', 'error');
+            }
+        }
+
+        async function createItinerary() {
+            const title = document.getElementById('itinTitle').value;
+            const startDate = document.getElementById('itinStartDate').value;
+            const endDate = document.getElementById('itinEndDate').value;
+            const cost = document.getElementById('itinCost').value;
+            const destSelect = document.getElementById('itinDestinations');
+            const destinations = Array.from(destSelect.selectedOptions).map(opt => opt.value);
+
+            if (!title || !startDate || !endDate || !cost || destinations.length === 0) {
+                showAppMessage('Please fill all fields and select at least one destination', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/itinerary/create`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        title,
+                        startDate,
+                        endDate,
+                        totalCost: cost,
+                        destinations
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Itinerary created successfully!', 'success');
+                    // Auto-refresh dashboard
+                    loadDashboard();
+                    showSection('itineraries', null);
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error creating itinerary', 'error');
+            }
+        }
+
+        async function loadMyItineraries() {
+            try {
+                const response = await fetch(`${API_URL}/itineraries/user/${currentUser.id}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('itinerariesList');
+                
+                if (data.itineraries.length === 0) {
+                    container.innerHTML = '<div class="card" style="text-align: center; padding: 60px 20px;"><h3 style="margin-bottom: 16px;">🗺️ No Itineraries Yet</h3><p style="color: #64748b; font-size: 16px;">Create your first travel itinerary and start exploring amazing destinations!</p></div>';
+                    return;
+                }
+
+                let html = '';
+                data.itineraries.forEach(itin => {
+                    html += `
+                        <div class="card">
+                            <h3>${itin.Title}</h3>
+                            <p><strong>Duration:</strong> ${formatDate(itin.StartDate)} to ${formatDate(itin.EndDate)}</p>
+                            <p><strong>Total Cost:</strong> ₹${itin.TotalCost.toLocaleString()}</p>
+                            <p><strong>Destinations:</strong> ${itin.Destinations || 'None'}</p>
+                            <button class="btn btn-danger" onclick="deleteItinerary(${itin.ItineraryID})">Delete</button>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                showAppMessage('Error loading itineraries', 'error');
+            }
+        }
+
+        async function deleteItinerary(itinId) {
+            if (!confirm('Are you sure you want to delete this itinerary?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/itinerary/delete/${itinId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Itinerary deleted successfully!', 'success');
+                    // Auto-refresh dashboard
+                    loadDashboard();
+                    loadMyItineraries();
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error deleting itinerary', 'error');
+            }
+        }
+
+        // ============================================
+        // DESTINATIONS
+        // ============================================
+
+        async function loadDestinations() {
+            try {
+                const response = await fetch(`${API_URL}/destinations`);
+                const data = await response.json();
+                
+                const container = document.getElementById('destinationsList');
+                
+                let html = '';
+                if (!data.destinations || data.destinations.length === 0) {
+                    container.innerHTML = '<div class="card" style="text-align: center; padding: 60px 20px;"><h3 style="margin-bottom: 16px;">🌍 No Destinations Yet</h3><p style="color: #64748b; font-size: 16px;">Add your first destination to start curating experiences.</p></div>';
+                    return;
+                }
+                for (const dest of data.destinations) {
+                     // Get popularity status
+                    let popularity = 'Unknown';
+                    try {
+                        const popRes = await fetch(`${API_URL}/destination/popularity/${dest.DestID}`);
+                        const popData = await popRes.json();
+                        if (popData.success) {
+                            popularity = popData.popularity;
+                        }
+                    } catch (error) {
+                        popularity = 'Unknown';
+                    }
+                    
+                    html += `
+                        <div class="card">
+                            <h3>${dest.Name}</h3>
+                            <p><strong>Location:</strong> ${dest.Location}</p>
+                            <p><strong>Type:</strong> ${dest.Type}</p>
+                            <p><strong>Rating:</strong> ${'⭐'.repeat(dest.Rating)}</p>
+                            <p><strong>Popularity:</strong> <span style="background: ${
+                                popularity === 'Popular' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
+                                popularity === 'Moderate' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'linear-gradient(135deg, #6b7280 0%, #475569 100%)'
+                            }; color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                                ${popularity}</span></p>
+                            <p>${dest.Description}</p>
+                            <button class="btn btn-danger" onclick="deleteDestination(${dest.DestID})">Delete Destination</button>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = html;
+            } catch (error) {
+                showAppMessage('Error loading destinations', 'error');
+            }
+        }
+
+        async function createDestination() {
+            const name = document.getElementById('destName').value;
+            const location = document.getElementById('destLocation').value;
+            const type = document.getElementById('destType').value;
+            const description = document.getElementById('destDescription').value;
+            const rating = document.getElementById('destRating').value;
+
+            if (!name || !location || !description) {
+                showAppMessage('Please fill all required fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/destination/create`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name, location, type, description, rating})
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Destination created successfully!', 'success');
+                    showSection('destinations', null);
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error creating destination', 'error');
+            }
+        }
+
+        async function deleteDestination(destId) {
+            if (!confirm('Are you sure you want to delete this destination?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/destination/delete/${destId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAppMessage('Destination deleted successfully!', 'success');
+                    loadDestinations(); // Reload destinations to update the list
+                } else {
+                    showAppMessage(data.message, 'error');
+                }
+            } catch (error) {
+                showAppMessage('Error deleting destination', 'error');
+            }
+        }
+
+        // ============================================
+        // REPORTS
+        // ============================================
+
+        async function loadPopularDestinations() {
+            try {
+                const response = await fetch(`${API_URL}/reports/popular-destinations`);
+                const data = await response.json();
+                
+                let html = '<table><thead><tr>' +
+                    '<th>Name</th><th>Location</th><th>Type</th><th>Rating</th>' +
+                    '<th>Popularity</th><th>Total Itineraries</th>' +
+                    '</tr></thead><tbody>';
+
+                data.destinations.forEach(dest => {
+                    html += `
+                        <tr>
+                            <td>${dest.Name}</td>
+                            <td>${dest.Location}</td>
+                            <td>${dest.Type}</td>
+                            <td>${'⭐'.repeat(dest.Rating)}</td>
+                            <td><span style="background: ${
+                                dest.PopularityStatus === 'Popular' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
+                                dest.PopularityStatus === 'Moderate' ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'linear-gradient(135deg, #6b7280 0%, #475569 100%)'
+                            }; color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                                ${dest.PopularityStatus}</span></td>
+                            <td>${dest.TotalItineraries}</td>
+                        </tr>
+                    `;
+                });
+
+                html += '</tbody></table>';
+                document.getElementById('popularDestinations').innerHTML = html;
+            } catch (error) {
+                showAppMessage('Error loading report', 'error');
+            }
+        }
+
+        async function loadSpendingReport() {
+            const container = document.getElementById('spendingReport');
+            if (!container) return;
+            container.innerHTML = '<p class="loading">Generating report...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/reports/user-spending/${currentUser.id}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const amount = data.totalSpending || 0;
+                    container.innerHTML = `
+                        <div class="cost-display" style="margin: 0;">
+                            <p>Total Confirmed Booking Spend</p>
+                            <h2>₹ ${amount.toLocaleString()}</h2>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = '<div class="message error show">Unable to generate spending report.</div>';
+                }
+            } catch (error) {
+                container.innerHTML = '<div class="message error show">Error generating spending report.</div>';
+            }
+        }
+
+        // ============================================
+        // PROFILE
+        // ============================================
+
+        async function loadProfile() {
+            showProfileMessage('', '');
+            try {
+                const response = await fetch(`${API_URL}/user/profile/${currentUser.id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    // Populate display fields
+                    document.getElementById('profileFirstNameDisplay').textContent = user.FirstName || '-';
+                    document.getElementById('profileLastNameDisplay').textContent = user.LastName || '-';
+                    document.getElementById('profileEmailDisplay').textContent = user.Email || '-';
+                    document.getElementById('profilePhoneDisplay').textContent = user.PhoneNo || '-';
+                    document.getElementById('profileTotalBookingsDisplay').textContent = user.TotalBookings ?? 0;
+                    
+                    // Also populate edit fields for when edit mode is enabled
+                    document.getElementById('profileFirstName').value = user.FirstName || '';
+                    document.getElementById('profileLastName').value = user.LastName || '';
+                    document.getElementById('profileEmail').value = user.Email || '';
+                    document.getElementById('profilePhone').value = user.PhoneNo || '';
+                    
+                    // Ensure we're in view mode
+                    cancelProfileEdit();
+                    showProfileMessage('Profile details loaded.', 'success');
+                }
+            } catch (error) {
+                showProfileMessage('Error loading profile details.', 'error');
+            }
+        }
+
+        function toggleProfileEdit() {
+            const profileDetails = document.getElementById('profileDetails');
+            const profileEditForm = document.getElementById('profileEditForm');
+            const editBtn = document.getElementById('editProfileBtn');
+            
+            // Switch to edit mode
+            profileDetails.style.display = 'none';
+            profileEditForm.style.display = 'block';
+            editBtn.style.display = 'none';
+            showProfileMessage('', '');
+        }
+
+        function cancelProfileEdit() {
+            const profileDetails = document.getElementById('profileDetails');
+            const profileEditForm = document.getElementById('profileEditForm');
+            const editBtn = document.getElementById('editProfileBtn');
+            
+            // Switch to view mode
+            profileDetails.style.display = 'block';
+            profileEditForm.style.display = 'none';
+            editBtn.style.display = 'block';
+            showProfileMessage('', '');
+        }
+
+        async function updateProfile() {
+            const firstName = document.getElementById('profileFirstName').value;
+            const lastName = document.getElementById('profileLastName').value;
+            const phone = document.getElementById('profilePhone').value;
+
+            if (!firstName || !lastName || !phone) {
+                showProfileMessage('Please fill in all required profile fields.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/user/update/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({firstName, lastName, phone})
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser.name = `${firstName} ${lastName}`;
+                    // Update saved session
+                    saveSession(currentUser);
+                    
+                    document.getElementById('userInfo').innerHTML = `<strong>Hi</strong> ${currentUser.name}!`;
+                    showProfileMessage('Profile updated successfully!', 'success');
+                    // Auto-refresh dashboard
+                    loadDashboard();
+                    // Reload profile to refresh display
+                    await loadProfile();
+                } else {
+                    showProfileMessage(data.message || 'Unable to update profile.', 'error');
+                }
+            } catch (error) {
+                showProfileMessage('Error updating profile.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
