@@ -92,7 +92,7 @@ SOURCE test_triggers_functions.sql;
 
 ##  Authors
 
-**Sirisha Veluvolu**
+**Sirisha Veluvolu**    
 **Sneha Shetty**
 
 ---
